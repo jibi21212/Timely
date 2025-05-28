@@ -120,3 +120,24 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+
+/*
+
+lib
+
+-> views
+  -> goals
+    -> types
+    create_goal.dart
+    goal.dart
+
+  -> home
+    home.dart
+
+-> widgets
+  navbar.dart
+
+main.dart
+
+*/
