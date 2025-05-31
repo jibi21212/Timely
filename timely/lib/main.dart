@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Timely',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Your Tasks'),
     );
   }
 }
@@ -54,17 +54,72 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // List of Type Options
+  final List<String> _types = ["Select Type", "countUp", "countDown", "Time"]; 
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+
+  // Opens the create task menu
+  void _createTask() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        String? selectedType = _types[0];
+        return StatefulBuilder(
+          builder: (BuildContext context, void Function(void Function()) setState) {
+            return AlertDialog(
+              title: const Text('Create Task'),
+              content: Container(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                width: 300.0,
+                height: 200.0,
+                child: Column(
+                  children: [
+                    TextField(
+                      decoration: InputDecoration(
+                        labelText: "Task Name",
+                        border: OutlineInputBorder(),
+                        hintText: 'Enter Task Name',
+                        hintStyle: TextStyle(color: Colors.black.withOpacity(0.3))
+                    
+                      ),
+                    ),
+
+                    DropdownMenu<String>(
+                      initialSelection: _types[0],
+                      onSelected: (String? newType) {
+                        setState(() {
+                          selectedType = newType;
+                        });
+
+                        
+                      },
+                      dropdownMenuEntries: _types.map((type) => DropdownMenuEntry(value: type, label: type)).toList(),
+                    ),
+
+                    if (selectedType == "countUp") ...[
+                      Text("hello")
+                    ],
+                    Text("Cycle") 
+                  ],
+                  
+                ),
+                
+              ),
+              
+              // Creates Task
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('CREATE'),
+                ),
+              ],
+            );
+          }
+        );
+      },
+    );
   }
 
   @override
@@ -106,15 +161,16 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
             Text(
-              '$_counter',
+              'This does nothing',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+
+        onPressed: _createTask,
+        tooltip: 'Create Task',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
